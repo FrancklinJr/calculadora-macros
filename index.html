@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Calculadora de Macros | Proteína, Carboidrato e Gordura</title>
+        <meta name="description" content="Calcule seus macronutrientes ideais para emagrecer, ganhar massa ou manter o peso. Grátis e baseado em fórmulas científicas.">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+        
+        <header>
+            <p class="eyebrow">Calculadora gratuita</p>
+            <h1>Seus <em>macros</em><br>ideais para hoje</h1>
+            <p class="subtitle">Calcule proteína, carboidrato e gordura<br>baseado no seu corpo e objetivo.</p>
+        </header>
+        
+        <div class="card">
+            <p class="section-label">Dados pessoais</p>
+            <div style="margin-bottom:1rem;">
+            <label style="margin-bottom:8px; display:block;">Sexo biológico</label>
+            <div class="gender-group">
+                <button class="gender-btn active" onclick="setGender('m', this)">♂ Masculino</button>
+                <button class="gender-btn" onclick="setGender('f', this)">♀ Feminino</button>
+            </div>
+            </div>
+            <div class="row">
+            <div class="field">
+                <label for="age">Idade</label>
+                <input type="number" id="age" placeholder="25" min="10" max="100">
+            </div>
+            <div class="field">
+                <label for="weight">Peso (kg)</label>
+                <input type="number" id="weight" placeholder="70" min="30" max="300">
+            </div>
+            </div>
+            <div class="field" style="margin-top:1rem;">
+            <label for="height">Altura (cm)</label>
+            <input type="number" id="height" placeholder="170" min="100" max="250">
+            </div>
+        </div>
+
+        <div class="card">
+            <p class="section-label">Nível de atividade</p>
+            <div class="field">
+            <select id="activity">
+                <option value="1.2">Sedentário (pouco ou nenhum exercício)</option>
+                <option value="1.375">Levemente ativo (exercício 1–3x por semana)</option>
+                <option value="1.55" selected>Moderadamente ativo (exercício 3–5x por semana)</option>
+                <option value="1.725">Muito ativo (exercício 6–7x por semana)</option>
+                <option value="1.9">Extremamente ativo (atleta ou trabalho físico intenso)</option>
+            </select>
+            </div>
+        </div>
+
+        <div class="card">
+            <p class="section-label">Objetivo</p>
+            <div class="field">
+            <select id="goal">
+                <option value="cut">Emagrecer (déficit calórico)</option>
+                <option value="maintain" selected>Manter o peso</option>
+                <option value="bulk">Ganhar massa muscular</option>
+            </select>
+            </div>
+        </div>
+        
+        <button class="calc-btn" onclick="calcular()">Calcular meus macros →</button>
+
+        <div id="results">
+            <div style="height:2rem;"></div>
+        
+            <div class="kcal-card">
+            <p class="kcal-label">Calorias diárias recomendadas</p>
+            <p class="kcal-value" id="r-kcal">—</p>
+            <p class="kcal-unit">kcal / dia</p>
+            </div>
+        
+            <div class="macros-grid">
+            <div class="macro-card protein">
+                <p class="macro-name">Proteína</p>
+                <p class="macro-g" id="r-prot">—</p>
+                <p class="macro-unit">gramas</p>
+            </div>
+            <div class="macro-card carb">
+                <p class="macro-name">Carboidrato</p>
+                <p class="macro-g" id="r-carb">—</p>
+                <p class="macro-unit">gramas</p>
+            </div>
+            <div class="macro-card fat">
+                <p class="macro-name">Gordura</p>
+                <p class="macro-g" id="r-fat">—</p>
+                <p class="macro-unit">gramas</p>
+            </div>
+            </div>
+        
+            <div class="bar-card">
+            <p class="bar-label">Distribuição calórica</p>
+            <div class="bar-track">
+                <div class="bar-segment" id="bar-prot" style="background: var(--protein); width:0%"></div>
+                <div class="bar-segment" id="bar-carb" style="background: var(--carb); width:0%"></div>
+                <div class="bar-segment" id="bar-fat" style="background: var(--fat); width:0%"></div>
+            </div>
+            <div class="bar-legend">
+                <div class="legend-item"><div class="legend-dot" style="background:var(--protein)"></div><span id="leg-prot">Proteína</span></div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--carb)"></div><span id="leg-carb">Carboidrato</span></div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--fat)"></div><span id="leg-fat">Gordura</span></div>
+            </div>
+            </div>
+        
+            <div class="info-card">
+            <p class="info-title">Detalhes do cálculo</p>
+            <div class="info-row"><span>TMB (metabolismo basal)</span><span id="r-bmr">—</span></div>
+            <div class="info-row"><span>TDEE (gasto total)</span><span id="r-tdee">—</span></div>
+            <div class="info-row"><span>Ajuste pelo objetivo</span><span id="r-adj">—</span></div>
+            <div class="info-row"><span>Meta calórica final</span><span id="r-meta">—</span></div>
+            </div>
+        
+            <div class="tip" id="r-tip"></div>
+        
+        </div>
+        
+        <footer>
+            Cálculo baseado na fórmula de Mifflin-St Jeor (2005).<br>
+            Este site é informativo e não substitui orientação de nutricionista.
+        </footer>
+        
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
